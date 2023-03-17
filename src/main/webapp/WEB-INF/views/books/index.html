@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container text-center" style="height: 700px; overflow-y: scroll;">
+    <table class="table table-light table-hover align-middle caption-top">
+        <caption>List of books</caption>
+        <thead class="table-dark" style="position: sticky; top:0;">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Year</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="book : ${books}">
+            <td th:text="${book.getTitle()}">title</td>
+            <td th:text="${book.getAuthor()}">author</td>
+            <td th:text="${book.getYear()}">year</td>
+            <td>
+                <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+                    <a type="button" class="btn btn-secondary" th:href="@{books/{id} (id=${book.getId()})}">Go to profile</a>
+                    <a class="btn btn-dark" th:href="@{books/{id}/edit (id=${book.getId()})}">Edit</a>
+                    <input type="submit" class="btn btn-danger" value="Delete"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="container">
+    <br/>
+    <hr/>
+    <a class="btn btn-dark" href="/books/new">New</a>
+    <a class="btn btn-dark" href="/people">To people catalog</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

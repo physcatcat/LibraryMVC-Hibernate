@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h3 th:text="${book.getTitle()}"/>
+        <hr>
+    </div>
+
+    <div class="row">
+        <p th:text="${'Titile: ' + book.getTitle()}"/>
+        <p th:text="${'Author: ' + book.getAuthor()}"/>
+        <p th:text="${'Year: ' + book.getYear()}"/>
+    </div>
+
+    <div th:if="${people}" class="row">
+        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" th:object="${person}">
+            <label for="person">Select a person</label>
+            <select th:object="${person}" th:field="*{id}" id="person">
+                <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"/>
+            </select>
+            <input class="btn btn-primary" type="submit" value="Assign">
+        </form>
+    </div>
+
+    <div th:if="${owner}" class="row">
+        <p>Book is owned by
+            <a th:href="@{/people/{id}(id=${owner.getId()})}" th:text="${owner.getName()}"/>
+        </p>
+        <br>
+        <br>
+        <hr>
+    </div>
+
+    <div class="row">
+        <form th:if="${owner}" th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
+            <input class="btn btn-primary" type="submit" value="Release"/>
+        </form>
+        <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
+            <input class="btn btn-danger" type="submit" value="Delete"/>
+            <a class="btn btn-dark" th:href="@{/books/{id}/edit(id=${book.getId()})}">Edit</a>
+            <a class="btn btn-secondary" th:href="@{/books}">To book catalog</a>
+            <a class="btn btn-secondary" th:href="@{/people}">To people catalog</a>
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>
