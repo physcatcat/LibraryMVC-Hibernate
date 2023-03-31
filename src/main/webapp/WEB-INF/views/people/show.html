@@ -15,7 +15,7 @@
     </div>
     <div class="row">
         <p th:text="${'Name: ' + person.getName()}"/>
-        <p th:text="${'Birth date: ' + person.getBirthDate()}"/>
+        <p th:text="${'Birth date: ' + person.getDateInFormat()}"/>
         <p th:text="${'Phone number: +7' + person.getPhoneNumber()}"/>
         <p th:text="${'Email: ' + person.getEmail()}"/>
         <hr>
@@ -35,7 +35,7 @@
     </div>
     <div class="row">
         <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-            <a class="btn btn-dark" th:href="@{people/{id}/edit (id=${person.getId()})}">Edit</a>
+            <a class="btn btn-dark" th:href="@{/people/{id}/edit (id=${person.getId()})}">Edit</a>
             <a class="btn btn-secondary" th:href="@{/books}">To book catalog</a>
             <a class="btn btn-secondary" th:href="@{/people}">To person catalog</a>
             <input type="submit" class="btn btn-danger" value="Delete"/>

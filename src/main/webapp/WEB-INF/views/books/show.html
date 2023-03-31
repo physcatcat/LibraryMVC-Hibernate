@@ -21,28 +21,28 @@
     </div>
 
     <div th:if="${people}" class="row">
-        <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" th:object="${person}">
-            <label for="person">Select a person</label>
-            <select th:object="${person}" th:field="*{id}" id="person">
-                <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"/>
-            </select>
-            <input class="btn btn-primary" type="submit" value="Assign">
-        </form>
+        <div class="col-5">
+            <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" th:object="${person}">
+                <div class="input-group">
+                    <label for="person" class="input-group-text">Select a person:</label>
+                    <select class="form-select" th:field="*{id}" id="person">
+                        <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getName()}"></option>
+                    </select>
+                    <button type="submit" class="btn btn-primary">Assign</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div th:if="${owner}" class="row">
-        <p>Book is owned by
-            <a th:href="@{/people/{id}(id=${owner.getId()})}" th:text="${owner.getName()}"/>
-        </p>
-        <br>
-        <br>
-        <hr>
-    </div>
-
-    <div class="row">
         <form th:if="${owner}" th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
+            Book is owned by
+            <a th:href="@{/people/{id}(id=${owner.getId()})}" th:text="${owner.getName()}"/>
             <input class="btn btn-primary" type="submit" value="Release"/>
         </form>
+    </div>
+    <hr>
+    <div class="row">
         <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
             <input class="btn btn-danger" type="submit" value="Delete"/>
             <a class="btn btn-dark" th:href="@{/books/{id}/edit(id=${book.getId()})}">Edit</a>

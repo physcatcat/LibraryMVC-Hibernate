@@ -13,12 +13,10 @@ import java.util.Optional;
 @Component
 public class BookDAO {
     private final JdbcTemplate jdbcTemplate;
-    private final PersonMapper personMapper;
 
     @Autowired
-    public BookDAO(JdbcTemplate jdbcTemplate, PersonMapper personMapper) {
+    public BookDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.personMapper = personMapper;
     }
 
     public List<Book> index() {
@@ -60,7 +58,7 @@ public class BookDAO {
                                 inner join book b on b.person_id = p.id
                             where b.id = ?
                         """,
-                personMapper,
+                new BeanPropertyRowMapper<>(Person.class),
                 bookId
         ).stream().findAny();
     }

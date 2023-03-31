@@ -1,4 +1,9 @@
-driver=
-url=
-usernamedb=
-password=
+# Config data source
+hibernate.driver_class=
+hibernate.connection.url=
+hibernate.connection.username=
+hibernate.connection.password=
+
+# Config hibernate
+hibernate.dialect=
+hibernate.show_sql=

@@ -7,6 +7,7 @@ import org.springframework.validation.Validator;
 import ru.ivanov.librarymvc.dao.PersonDAO;
 import ru.ivanov.librarymvc.models.Person;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -36,12 +37,6 @@ public class PersonValidator implements Validator {
         dbPerson = personDAO.showByPhoneNumber(person.getPhoneNumber());
         if(dbPerson.isPresent() && dbPerson.get().getId() != person.getId()) {
             errors.rejectValue("phoneNumber", "", "This phone number is already registered");
-        }
-        //check if date is correct
-        try {
-            LocalDate.parse(person.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        } catch (Exception ex) {
-            errors.rejectValue("birthDate", "", "Incorrect date, write date in format: dd/mm/yyyy");
         }
     }
 }

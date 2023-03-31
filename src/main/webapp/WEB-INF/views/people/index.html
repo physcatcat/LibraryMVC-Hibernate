@@ -23,7 +23,7 @@
         <tbody class="table-group-divider">
         <tr th:each="person : ${people}">
             <td th:text="${person.getName()}">name</td>
-            <td th:text="${person.getBirthDate()}">birthDate</td>
+            <td th:text="${person.getDateInFormat()}">birthDate</td>
             <td th:text="${'+7' + person.getPhoneNumber()}">phoneNumber</td>
             <td th:text="${person.getEmail()}">email</td>
             <td>
