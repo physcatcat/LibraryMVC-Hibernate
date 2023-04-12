@@ -20,7 +20,7 @@
         </tr>
         </thead>
         <tbody class="table-group-divider">
-        <tr th:each="book : ${books}">
+        <tr th:each="book : ${books.getContent()}">
             <td th:text="${book.getTitle()}">title</td>
             <td th:text="${book.getAuthor()}">author</td>
             <td th:text="${book.getYear()}">year</td>
@@ -37,6 +37,55 @@
 </div>
 <div class="container">
     <br/>
+    <form>
+        <div class="row justify-content-end justify-content-between">
+            <div class="col col-md-auto">
+                <div class="row">
+                    <div class="col col-md-auto">
+                        <label class="col-form-label" for="limit">Items per page:</label>
+                    </div>
+                    <div class="col col-md-auto">
+                        <select class="form-control" id="limit" name="limit">
+                            <option value="5" th:selected="${limit == 5}">5</option>
+                            <option value="10" th:selected="${limit == 10}">10</option>
+                            <option value="20" th:selected="${limit == 20}">20</option>
+                        </select>
+                    </div>
+                    <div class="col col-md-auto">
+                        <label class="col-form-label" for="sortBy">Sorting by:</label>
+                    </div>
+                    <div class="col col-md-auto">
+                        <select class="form-control" id="sortBy" name="sortBy">
+                            <option value="title" th:selected="${sortBy.equals('title')}">Title</option>
+                            <option value="year" th:selected="${sortBy.equals('year')}">Year</option>
+                            <option value="author" th:selected="${sortBy.equals('author')}">Author</option>
+                        </select>
+                    </div>
+                    <div class="col col-md-auto">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-auto">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${page == 0 ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/books(page=${page}-1, limit=${limit}, sortBy=${sortBy})}">Previous</a>
+                        </li>
+                        <li th:each="pageNum : ${#numbers.sequence(0, books.getTotalPages()-1)}" class="page-item">
+                            <a class="page-link" th:classappend="${pageNum == page ? 'active' : ''}"
+                               th:href="@{/books(page=${pageNum}, limit=${limit}, sortBy=${sortBy})}"
+                               th:text="${pageNum+1}"/>
+                        </li>
+                        <li class="page-item" th:classappend="${page == books.getTotalPages()-1 ? 'disabled' : ''}">
+                            <a class="page-link"
+                               th:href="@{/books(page=${page}+1, limit=${limit}, sortBy=${sortBy})}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </form>
     <hr/>
     <a class="btn btn-dark" href="/books/new">New</a>
     <a class="btn btn-dark" href="/people">To people catalog</a>

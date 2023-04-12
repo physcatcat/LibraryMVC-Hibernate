@@ -39,15 +39,6 @@ public class PeopleController {
         return "people/index";
     }
 
-    @PostMapping("/changeIndexRequestParams")
-    public String changeIndexRequestParams(Model model) {
-        Integer page = (Integer) model.getAttribute("page");
-        Integer limit = (Integer) model.getAttribute("limit");
-        String sortBy = (String) model.getAttribute("sortBy");
-        System.out.println(page + " " + limit + " " + sortBy);
-        return String.format("redirect:/people?page=%d&limit=%d&sortBy=%s", page, limit, sortBy);
-    }
-
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         Person person = peopleService.findOne(id);

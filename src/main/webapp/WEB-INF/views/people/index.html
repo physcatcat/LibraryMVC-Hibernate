@@ -38,34 +38,55 @@
     </table>
 </div>
 <div class="container">
-    <form>
-        <nav>
-            <ul class="pagination">
-                <li class="page-item" th:classappend="${page == 0 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/people(page=${page}-1, limit=${limit}, sortBy=${sortBy})}">Previous</a>
-                </li>
-                <li th:each="pageNum : ${#numbers.sequence(0, people.getTotalPages()-1)}" class="page-item">
-                    <a class="page-link" th:classappend="${pageNum == page ? 'active' : ''}" th:href="@{/people(page=${pageNum}, limit=${limit}, sortBy=${sortBy})}" th:text="${pageNum+1}"/>
-                </li>
-                <li class="page-item" th:classappend="${page == people.getTotalPages()-1 ? 'disabled' : ''}">
-                    <a class="page-link" th:href="@{/people(page=${page}+1, limit=${limit}, sortBy=${sortBy})}">Next</a>
-                </li>
-            </ul>
-        </nav>
-        <label for="limit">Items per page:</label>
-        <select class="form-control" id="limit" name="limit">
-            <option value="5" th:selected="${limit == 5}">5</option>
-            <option value="10" th:selected="${limit == 10}">10</option>
-            <option value="20" th:selected="${limit == 20}">20</option>
-        </select>
-        <label for="sortBy">Sorting by:</label>
-        <select class="form-control" id="sortBy" name="sortBy">
-            <option value="name" th:selected="${sortBy.equals('name')}">Name</option>
-            <option value="birthDate" th:selected="${sortBy.equals('birthDate')}">Date of birth</option>
-        </select>
-        <button type="submit" class="btn btn-primary">Confirm</button>
-    </form>
     <br/>
+    <form>
+        <div class="row justify-content-end justify-content-between">
+            <div class="col col-md-auto">
+                <div class="row">
+                    <div class="col col-md-auto">
+                        <label class="col-form-label" for="limit">Items per page:</label>
+                    </div>
+                    <div class="col col-md-auto">
+                        <select class="form-control" id="limit" name="limit">
+                            <option value="5" th:selected="${limit == 5}">5</option>
+                            <option value="10" th:selected="${limit == 10}">10</option>
+                            <option value="20" th:selected="${limit == 20}">20</option>
+                        </select>
+                    </div>
+                    <div class="col col-md-auto">
+                        <label class="col-form-label" for="sortBy">Sorting by:</label>
+                    </div>
+                    <div class="col col-md-auto">
+                        <select class="form-control" id="sortBy" name="sortBy">
+                            <option value="name" th:selected="${sortBy.equals('name')}">Name</option>
+                            <option value="birthDate" th:selected="${sortBy.equals('birthDate')}">Date of birth</option>
+                        </select>
+                    </div>
+                    <div class="col col-md-auto">
+                        <button type="submit" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-auto">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item" th:classappend="${page == 0 ? 'disabled' : ''}">
+                            <a class="page-link" th:href="@{/people(page=${page}-1, limit=${limit}, sortBy=${sortBy})}">Previous</a>
+                        </li>
+                        <li th:each="pageNum : ${#numbers.sequence(0, people.getTotalPages()-1)}" class="page-item">
+                            <a class="page-link" th:classappend="${pageNum == page ? 'active' : ''}"
+                               th:href="@{/people(page=${pageNum}, limit=${limit}, sortBy=${sortBy})}"
+                               th:text="${pageNum+1}"/>
+                        </li>
+                        <li class="page-item" th:classappend="${page == people.getTotalPages()-1 ? 'disabled' : ''}">
+                            <a class="page-link"
+                               th:href="@{/people(page=${page}+1, limit=${limit}, sortBy=${sortBy})}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </form>
     <hr/>
     <a class="btn btn-dark" href="/people/new">New</a>
     <a class="btn btn-dark" href="/books">To book catalog</a>

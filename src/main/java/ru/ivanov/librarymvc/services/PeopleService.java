@@ -26,7 +26,6 @@ public class PeopleService {
     }
 
     public Page<Person> findAll(Integer page, Integer limit, String sortBy) {
-        System.out.println(sortBy);
         return peopleRepository.findAll(PageRequest.of(page, limit, Sort.by(sortBy)));
     }
 
