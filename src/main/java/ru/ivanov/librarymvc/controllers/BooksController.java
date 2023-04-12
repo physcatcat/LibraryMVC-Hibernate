@@ -10,15 +10,14 @@ import ru.ivanov.librarymvc.models.Book;
 import ru.ivanov.librarymvc.models.Person;
 import ru.ivanov.librarymvc.services.BooksService;
 import ru.ivanov.librarymvc.services.PeopleService;
-
-import java.util.Optional;
+;
 
 @Controller
 @RequestMapping("/books")
 public class BooksController {
     private final BooksService booksService;
-
     private final PeopleService peopleService;
+
     @Autowired
     public BooksController(BooksService booksService, PeopleService peopleService) {
         this.booksService = booksService;
@@ -88,9 +87,9 @@ public class BooksController {
     }
 
     @PatchMapping("/{id}/release")
-    public String release(@PathVariable("id") int id, @ModelAttribute("owner") Person owner) {
-        booksService.release(id);
-        return "redirect:/people/"+owner.getId();
+    public String release(@PathVariable("id") int id) {
+        int ownerId = booksService.release(id);
+        return "redirect:/people/"+ownerId;
     }
     @PatchMapping("/{id}/assign")
     public String assign(@PathVariable("id") int id, @ModelAttribute("person") Person person) {

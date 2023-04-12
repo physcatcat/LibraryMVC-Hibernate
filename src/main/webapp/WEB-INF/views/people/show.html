@@ -28,7 +28,11 @@
 
     <div class="row" th:if="${!books.isEmpty()}">
         <p>Assigned books:</p>
-        <a th:each="book : ${books}" th:text="${book.getTitle() + ', ' + book.getAuthor()+ ', ' + book.getYear()}" th:href="@{/books/{id}(id=${book.getId()})}"/>
+        <div th:each="book : ${books}">
+            <a th:text="${book.getTitle() + ', ' + book.getAuthor()+ ', ' + book.getYear()}" th:href="@{/books/{id}(id=${book.getId()})}"/>
+            <a th:text=" ' (assigned at ' + ${book.getAssignedAtInFormat()} + ')'" th:styleappend="${book.isExpired() ? 'color:darkred' : ''}"/>
+        </div>
+
         <br>
         <br>
         <hr>

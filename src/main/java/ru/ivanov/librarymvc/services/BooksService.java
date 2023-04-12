@@ -10,6 +10,7 @@ import ru.ivanov.librarymvc.models.Book;
 import ru.ivanov.librarymvc.models.Person;
 import ru.ivanov.librarymvc.repositories.BooksRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,11 +51,19 @@ public class BooksService {
     public void assign(int id, Person person) {
         Book book = booksRepository.findById(id).get();
         book.setOwner(person);
+        book.setAssignedAt(new Date());
     }
 
     @Transactional
-    public void release(int id) {
+    public int release(int id) {
+        /*
+        Возвращает id владельца, для того, чтобы можно было перенаправить пользователя на страницу человека,
+        которому принадлежала книга
+         */
         Book book = booksRepository.findById(id).get();
+        int ownerId = book.getOwner().getId();
         book.setOwner(null);
+        book.setAssignedAt(null);
+        return ownerId;
     }
 }

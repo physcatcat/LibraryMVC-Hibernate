@@ -6,19 +6,17 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.ivanov.librarymvc.dao.PersonDAO;
 import ru.ivanov.librarymvc.models.Person;
+import ru.ivanov.librarymvc.services.PeopleService;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Component
 public class PersonValidator implements Validator {
-    private final PersonDAO personDAO;
+    private final PeopleService peopleService;
 
     @Autowired
-    public PersonValidator(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidator(PeopleService peopleService) {
+        this.peopleService = peopleService;
     }
 
     @Override
@@ -30,11 +28,11 @@ public class PersonValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
         //check if email and phoneNumber is unique
-        Optional<Person> dbPerson = personDAO.showByEmail(person.getEmail());
+        Optional<Person> dbPerson = peopleService.findOneByEmail(person.getEmail());
         if(dbPerson.isPresent() && dbPerson.get().getId() != person.getId()) {
             errors.rejectValue("email", "", "This email is already registered");
         }
-        dbPerson = personDAO.showByPhoneNumber(person.getPhoneNumber());
+        dbPerson = peopleService.findOneByPhoneNumber(person.getPhoneNumber());
         if(dbPerson.isPresent() && dbPerson.get().getId() != person.getId()) {
             errors.rejectValue("phoneNumber", "", "This phone number is already registered");
         }

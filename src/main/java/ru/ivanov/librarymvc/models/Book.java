@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -52,5 +53,9 @@ public class Book {
         if(owner == null) return false;
         //Если между текущем временем и временем взятия прошло больше 10 суток, то человек просрочил книгу
         return Math.abs(System.currentTimeMillis() - assignedAt.getTime()) > 864000000;
+    }
+
+    public String getAssignedAtInFormat() {
+        return new SimpleDateFormat("dd/MM/yyyy").format(assignedAt);
     }
 }
