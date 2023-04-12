@@ -3,6 +3,7 @@ package ru.ivanov.librarymvc.controllers;
 import jakarta.validation.Valid;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +25,27 @@ public class PeopleController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        model.addAttribute("people", peopleService.findAll());
+    public String index(
+            Model model,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit,
+            @RequestParam(value = "sortBy", defaultValue = "name") String sortBy
+    ) {
+        Page<Person> people =  peopleService.findAll(page, limit, sortBy);
+        model.addAttribute("people", people);
+        model.addAttribute("page", page);
+        model.addAttribute("limit", limit);
+        model.addAttribute("sortBy", sortBy);
         return "people/index";
+    }
+
+    @PostMapping("/changeIndexRequestParams")
+    public String changeIndexRequestParams(Model model) {
+        Integer page = (Integer) model.getAttribute("page");
+        Integer limit = (Integer) model.getAttribute("limit");
+        String sortBy = (String) model.getAttribute("sortBy");
+        System.out.println(page + " " + limit + " " + sortBy);
+        return String.format("redirect:/people?page=%d&limit=%d&sortBy=%s", page, limit, sortBy);
     }
 
     @GetMapping("/{id}")
@@ -45,7 +64,7 @@ public class PeopleController {
     @PostMapping
     public String create(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "people/new";
         }
         peopleService.save(person);
@@ -61,7 +80,7 @@ public class PeopleController {
     @PatchMapping("/{id}")
     public String update(@PathVariable("id") int id, @ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
         personValidator.validate(person, bindingResult);
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "people/edit";
         }
         peopleService.save(id, person);

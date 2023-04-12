@@ -2,6 +2,9 @@ package ru.ivanov.librarymvc.services;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.ivanov.librarymvc.models.Book;
@@ -22,8 +25,13 @@ public class PeopleService {
         this.peopleRepository = peopleRepository;
     }
 
+    public Page<Person> findAll(Integer page, Integer limit, String sortBy) {
+        System.out.println(sortBy);
+        return peopleRepository.findAll(PageRequest.of(page, limit, Sort.by(sortBy)));
+    }
+
     public List<Person> findAll() {
-        return peopleRepository.findAll();
+        return peopleRepository.findAll(Sort.by("name"));
     }
 
     public Person findOne(int id) {
@@ -47,13 +55,11 @@ public class PeopleService {
     }
 
     public Optional<Person> findOneByPhoneNumber(String phoneNumber) {
-        //TODO:findOneByPhoneNumber method implementation
-        return Optional.empty();
+        return peopleRepository.findByPhoneNumber(phoneNumber);
     }
 
     public Optional<Person> findOneByEmail(String email) {
-        //TODO:findOneByEmail method implementation
-        return Optional.empty();
+        return peopleRepository.findByEmail(email);
     }
 
     public List<Book> getBooks(int id) {

@@ -22,6 +22,7 @@
 
     <div th:if="${people}" class="row">
         <div class="col-5">
+            <p>This book is free now, you can assign it to someone:</p>
             <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.getId()})}" th:object="${person}">
                 <div class="input-group">
                     <label for="person" class="input-group-text">Select a person:</label>
@@ -44,10 +45,10 @@
     <hr>
     <div class="row">
         <form th:method="DELETE" th:action="@{/books/{id}(id=${book.getId()})}">
-            <input class="btn btn-danger" type="submit" value="Delete"/>
             <a class="btn btn-dark" th:href="@{/books/{id}/edit(id=${book.getId()})}">Edit</a>
             <a class="btn btn-secondary" th:href="@{/books}">To book catalog</a>
             <a class="btn btn-secondary" th:href="@{/people}">To people catalog</a>
+            <input class="btn btn-danger" type="submit" value="Delete"/>
         </form>
     </div>
 </div>
